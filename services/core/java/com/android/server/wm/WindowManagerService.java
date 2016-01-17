@@ -4361,7 +4361,7 @@ public class WindowManagerService extends IWindowManager.Stub
                 AppWindowToken ttoken = findAppWindowToken(transferFrom);
                 if (ttoken != null) {
                     WindowState startingWindow = ttoken.startingWindow;
-                    if (startingWindow != null) {
+                    if (startingWindow != null && ttoken.startingView != null) {
                         // In this case, the starting icon has already been displayed, so start
                         // letting windows get shown immediately without any more transitions.
                         mSkipAppTransitionAnimation = true;
@@ -5690,6 +5690,12 @@ public class WindowManagerService extends IWindowManager.Stub
             // Switch state: AKEY_STATE_UNKNOWN.
             return LID_ABSENT;
         }
+    }
+
+    // Called by window manager policy. Not exposed externally.
+    @Override
+    public void lockDeviceNow() {
+        lockNow(null);
     }
 
     // Called by window manager policy. Not exposed externally.
@@ -12131,5 +12137,11 @@ public class WindowManagerService extends IWindowManager.Stub
                 mAppTransition.registerListenerLocked(listener);
             }
         }
+    }
+
+    /* @hide */
+    @Override
+    public int getSystemUIVisibility() {
+        return mLastStatusBarVisibility;
     }
 }

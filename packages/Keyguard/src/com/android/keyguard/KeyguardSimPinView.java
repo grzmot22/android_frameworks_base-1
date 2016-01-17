@@ -239,7 +239,7 @@ public class KeyguardSimPinView extends KeyguardPinBasedInputView {
 
         if (entry.length() < 4) {
             // otherwise, display a message to the user, and don't submit.
-            mSecurityMessageDisplay.setMessage(R.string.kg_invalid_sim_pin_hint, true);
+            mSecurityMessageDisplay.setMessage(R.string.kg_invalid_sim_length, true);
             resetPasswordText(true);
             mCallback.userActivity();
             return;
@@ -258,9 +258,9 @@ public class KeyguardSimPinView extends KeyguardPinBasedInputView {
                             }
                             resetPasswordText(true /* animate */);
                             if (result == PhoneConstants.PIN_RESULT_SUCCESS) {
+                                mRemainingAttempts = -1;
                                 KeyguardUpdateMonitor.getInstance(getContext())
                                         .reportSimUnlocked(mSubId);
-                                mRemainingAttempts = -1;
                                 if (mCallback != null) {
                                     mCallback.dismiss(true);
                                 }

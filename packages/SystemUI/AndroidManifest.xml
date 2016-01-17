@@ -44,9 +44,6 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.GET_APP_OPS_STATS" />
 
-    <!-- Screen recording -->
-    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
-
     <!-- Networking and telephony -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -55,7 +52,6 @@
     <uses-permission android:name="android.permission.ACCESS_BLUETOOTH_AVRCP_CT_DATA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -158,6 +154,10 @@
     <!-- headset icon -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+    <!-- Reboot -->
+    <uses-permission android:name="android.permission.REBOOT" />
+    <uses-permission android:name="android.permission.RECOVERY" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"
@@ -187,23 +187,16 @@
             android:process=":screenshot"
             android:exported="false" />
 
-        <receiver android:name=".screenshot.TrashScreenshot"
-                android:exported="true" />
-
  	<!-- started from PhoneWindowManager
              TODO: Should have an android:permission attribute -->
         <service android:name=".nameless.onthego.OnTheGoService"
             android:process=":onthego"
             android:exported="false" />
 
-
-        <!-- started from PhoneWindowManager
-             TODO: Should have an android:permission attribute -->
-        <service android:name=".omni.screenrecord.TakeScreenrecordService"
-            android:process=":screenrecord"
-            android:exported="false" />
-
         <service android:name=".LoadAverageService"
+                android:exported="true" />
+
+        <service android:name=".CPUInfoService"
                 android:exported="true" />
 
         <service android:name=".ImageWallpaper"
@@ -235,28 +228,10 @@
                   android:label="@string/system_ui_tuner"
                   android:process=":tuner"
                   android:exported="true">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <meta-data android:name="com.android.settings.category"
-                    android:value="com.android.settings.category.system" />-->
-        </activity>
-
-        <activity android:name=".tuner.QsTunerActivity"
-                  android:enabled="true"
-                  android:theme="@android:style/Theme.Material.Settings"
-                  android:label="@string/quick_settings"
-                  android:process=":tuner"
-                  android:exported="true">
-        </activity>
-
-        <activity android:name=".tuner.StatusBarActivity"
-                  android:enabled="true"
-                  android:theme="@android:style/Theme.Material.Settings"
-                  android:label="@string/status_bar_icons"
-                  android:process=":tuner"
-                  android:exported="true">
         </activity>
 
         <!-- Alternate Recents -->

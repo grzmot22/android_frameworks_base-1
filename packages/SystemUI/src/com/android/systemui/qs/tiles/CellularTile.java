@@ -94,9 +94,14 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
     @Override
     protected void handleClick() {
+        boolean enabled = mDataController.isMobileDataEnabled();
         MetricsLogger.action(mContext, getMetricsCategory());
         if (mDataController.isMobileDataSupported()) {
-            showDetail(true);
+            if (!enabled) {
+                mDataController.setMobileDataEnabled(true);
+            } else {
+                mDataController.setMobileDataEnabled(false);
+            }
         } else {
             mHost.startActivityDismissingKeyguard(DATA_USAGE_SETTINGS);
         }
@@ -104,7 +109,11 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
     @Override
     protected void handleSecondaryClick() {
-        handleClick();
+        if (mDataController.isMobileDataSupported()) {
+            showDetail(true);
+        } else {
+            mHost.startActivityDismissingKeyguard(MOBILE_NETWORK_SETTINGS);
+        }
     }
 
     @Override
@@ -201,7 +210,7 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
         @Override
         public void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
                 int qsType, boolean activityIn, boolean activityOut, String typeContentDescription,
-                String description, boolean isWide, int subId) {
+                String description, boolean isWide, boolean showSeparateRoaming, int subId) {
             if (qsIcon == null) {
                 // Not data sim, don't display.
                 return;

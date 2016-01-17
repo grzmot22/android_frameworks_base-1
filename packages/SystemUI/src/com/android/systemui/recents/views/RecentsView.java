@@ -47,6 +47,7 @@ import android.view.WindowInsets;
 import android.view.WindowManagerGlobal;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.android.internal.logging.MetricsLogger;
@@ -65,6 +66,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +107,9 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
 
     private ActivityManager mAm;
     private int mTotalMem;
+
+    TextClock mClock;
+    TextView mDate;
 
     public RecentsView(Context context) {
         super(context);
@@ -391,8 +396,10 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         }
         showMemDisplay();
 
+        updateTimeVisibility();
+
         boolean showClearAllRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SHOW_CLEAR_ALL_RECENTS, 0, UserHandle.USER_CURRENT) != 0;
+                Settings.System.SHOW_CLEAR_ALL_RECENTS, 1, UserHandle.USER_CURRENT) != 0;
 
         Rect taskStackBounds = new Rect();
         mConfig.getAvailableTaskStackBounds(width, height, mConfig.systemInsets.top,
@@ -491,16 +498,19 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
     @Override
     protected void onAttachedToWindow () {
         super.onAttachedToWindow();
-        mMemText = (TextView) ((View)getParent()).findViewById(R.id.recents_memory_text);
-        mMemBar = (ProgressBar) ((View)getParent()).findViewById(R.id.recents_memory_bar);
-        updateMemoryStatus();
+        mClock = (TextClock) ((View)getParent()).findViewById(R.id.recents_clock);
+        mDate = (TextView) ((View)getParent()).findViewById(R.id.recents_date);
+        updateTimeVisibility();
         mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
         mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents);
         mClearRecents.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 dismissAllTasksAnimated();
+                updateMemoryStatus();
             }
         });
+        mMemText = (TextView) ((View)getParent()).findViewById(R.id.recents_memory_text);
+        mMemBar = (ProgressBar) ((View)getParent()).findViewById(R.id.recents_memory_bar);
     }
 
     private boolean showMemDisplay() {
@@ -544,7 +554,36 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         }
         return memory / 1048576;
     }
-    
+
+    public void updateTimeVisibility() {
+        boolean showClock = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.RECENTS_FULL_SCREEN_CLOCK, 0, UserHandle.USER_CURRENT) != 0;
+        boolean showDate = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.RECENTS_FULL_SCREEN_DATE, 0, UserHandle.USER_CURRENT) != 0;
+        boolean fullscreenEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.RECENTS_FULL_SCREEN, 0, UserHandle.USER_CURRENT) != 0;
+
+        if (fullscreenEnabled) {
+            if (showClock) {
+                mClock.setVisibility(View.VISIBLE);
+            } else {
+                mClock.setVisibility(View.GONE);
+            }
+            if (showDate) {
+                long dateStamp = System.currentTimeMillis();
+                DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
+                String currentDateString =  dateFormat.format(dateStamp);
+                mDate.setText(currentDateString);
+                mDate.setVisibility(View.VISIBLE);
+            } else {
+                mDate.setVisibility(View.GONE);
+            }
+        } else {
+            mClock.setVisibility(View.GONE);
+            mDate.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * This is called with the full size of the window since we are handling our own insets.
      */

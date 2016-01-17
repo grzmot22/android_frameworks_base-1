@@ -365,10 +365,14 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                 com.android.internal.R.integer.config_autoBrightnessLightSensorRate);
         long brighteningLightDebounce = resources.getInteger(
                 com.android.internal.R.integer.config_autoBrightnessBrighteningLightDebounce);
+        long brighteningLightFastDebounce = resources.getInteger(
+                com.android.internal.R.integer.config_autoBrightnessBrighteningLightFastDebounce);
         long darkeningLightDebounce = resources.getInteger(
                 com.android.internal.R.integer.config_autoBrightnessDarkeningLightDebounce);
         boolean autoBrightnessResetAmbientLuxAfterWarmUp = resources.getBoolean(
                 com.android.internal.R.bool.config_autoBrightnessResetAmbientLuxAfterWarmUp);
+        int ambientLightHorizon = resources.getInteger(
+                com.android.internal.R.integer.config_autoBrightnessAmbientLightHorizon);
 
         if (mUseSoftwareAutoBrightnessConfig) {
             int[] lux = resources.getIntArray(
@@ -405,8 +409,9 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                         handler.getLooper(), sensorManager, screenAutoBrightnessSpline,
                         lightSensorWarmUpTimeConfig, screenBrightnessRangeMinimum,
                         mScreenBrightnessRangeMaximum, dozeScaleFactor, lightSensorRate,
-                        brighteningLightDebounce, darkeningLightDebounce,
-                        autoBrightnessResetAmbientLuxAfterWarmUp, mLiveDisplayController);
+                        brighteningLightDebounce, brighteningLightFastDebounce,
+                        darkeningLightDebounce, autoBrightnessResetAmbientLuxAfterWarmUp,
+                        ambientLightHorizon, mLiveDisplayController);
             }
         }
 
@@ -812,6 +817,9 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                 slowChange = false;
             }
             mAppliedDimming = true;
+        } else if (mAppliedDimming) {
+            slowChange = false;
+            mAppliedDimming = false;
         }
 
         // If low power mode is enabled, cut the brightness level by half
@@ -824,6 +832,9 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                 slowChange = false;
             }
             mAppliedLowPower = true;
+        } else if (mAppliedLowPower) {
+            slowChange = false;
+            mAppliedLowPower = false;
         }
 
         // Animate the screen brightness when the screen is on or dozing.

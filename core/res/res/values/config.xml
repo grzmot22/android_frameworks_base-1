@@ -96,6 +96,12 @@
     <integer name="config_activityShortDur">75</integer>
     <integer name="config_activityDefaultDur">110</integer>
 
+    <!-- The duration (in milliseconds) of recent app screen animation. -->
+    <integer name="config_recentDefaultDur">300</integer>
+
+    <!-- The duration (in milliseconds) of recent app screen exit animation. -->
+    <integer name="config_recentExitDur">450</integer>
+
     <!-- Duration for the dim animation behind a dialog.  This may be either
          a percentage, which is relative to the duration of the enter/open
          animation of the window being shown that is dimming behind, or it may
@@ -660,6 +666,10 @@
          closed.  The default is 0. -->
     <integer name="config_lidNavigationAccessibility">0</integer>
 
+    <!-- Indicate whether closing the lid causes the lockscreen to appear.
+         The default is false. -->
+    <bool name="config_lidControlsScreenLock">false</bool>
+
     <!-- Indicate whether closing the lid causes the device to go to sleep and opening
          it causes the device to wake up.
          The default is false. -->
@@ -1062,6 +1072,7 @@
          when adapting to brighter or darker environments.  This parameter controls how quickly
          brightness changes occur in response to an observed change in light level that exceeds the
          hysteresis threshold. -->
+    <integer name="config_autoBrightnessBrighteningLightFastDebounce">500</integer>
     <integer name="config_autoBrightnessBrighteningLightDebounce">4000</integer>
     <integer name="config_autoBrightnessDarkeningLightDebounce">8000</integer>
 
@@ -1071,6 +1082,9 @@
     <!-- If we allow automatic adjustment of screen brightness while dozing, how many times we want
          to reduce it to preserve the battery. Value of 100% means no scaling. -->
     <fraction name="config_screenAutoBrightnessDozeScaleFactor">100%</fraction>
+
+    <!-- Period of time in which to consider light samples in milliseconds. -->
+    <integer name="config_autoBrightnessAmbientLightHorizon">10000</integer>
 
     <!-- When the screen is turned on, the previous estimate of the ambient light level at the time
          the screen was turned off is restored and is used to determine the initial screen
@@ -2116,20 +2130,15 @@
          on the current state of the device.
          Each item must be one of the following strings:
          "power" = Power off
-         "reboot" = Reboot
-         "screenshot" = Take screenshot
-         "screenrecord" = Take screen recording
-         "profile" = Change phone's profile
-         "airplane" = Airplane mode toggle
-         "users" = list of users
          "settings" = An action to launch settings
-         "lockdown" = lock the phone down
+         "airplane" = Airplane mode toggle
          "bugreport" = Take bug report, if available
          "silent" = silent mode
+         "users" = list of users
          -->
     <string-array translatable="false" name="config_globalActionsList">
         <item>power</item>
-        <item>reboot</item>
+        <item>bugreport</item>
         <item>users</item>
     </string-array>
 

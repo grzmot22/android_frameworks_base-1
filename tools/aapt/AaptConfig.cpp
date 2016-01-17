@@ -255,6 +255,7 @@ bool parseCommaSeparatedList(const String8& str, std::set<ConfigDescription>* ou
 }
 
 void applyVersionForCompatibility(ConfigDescription* config) {
+    return;
     if (config == NULL) {
         return;
     }
@@ -305,7 +306,7 @@ bool parseMcc(const char* name, ResTable_config* out) {
         c++;
     }
     if (*c != 0) return false;
-    if (c-val != 3) return false;
+    if (c-val != 3 && c-val != 4) return false;
 
     int d = atoi(val);
     if (d != 0) {
@@ -335,7 +336,7 @@ bool parseMnc(const char* name, ResTable_config* out) {
         c++;
     }
     if (*c != 0) return false;
-    if (c-val == 0 || c-val > 3) return false;
+    if (c-val == 0 || c-val > 4) return false;
 
     if (out) {
         out->mnc = atoi(val);
@@ -488,6 +489,27 @@ bool parseUiModeType(const char* name, ResTable_config* out) {
               (out->uiMode&~ResTable_config::MASK_UI_MODE_TYPE)
               | ResTable_config::UI_MODE_TYPE_WATCH;
         return true;
+    } else if (strcmp(name, "smallui") == 0) {
+      if (out) out->uiMode =
+              (out->uiMode&~ResTable_config::MASK_UI_MODE_TYPE)
+              | 0xc;
+      return true;
+    } else if (strcmp(name, "mediumui") == 0) {
+      if (out) out->uiMode =
+              (out->uiMode&ResTable_config::MASK_UI_MODE_TYPE)
+              | 0xd;
+      return true;
+    } else if (strcmp(name, "largeui") == 0) {
+      if (out) out->uiMode =
+              (out->uiMode&ResTable_config::MASK_UI_MODE_TYPE)
+              | 0xe;
+      return true;
+    } else if (strcmp(name, "hugeui") == 0) {
+      if (out) out->uiMode = 0xf;
+      return true;
+    } else if (strcmp(name, "godzillaui") == 0) {
+      if (out) out->uiMode = 0xb;
+      return true;
     }
 
     return false;

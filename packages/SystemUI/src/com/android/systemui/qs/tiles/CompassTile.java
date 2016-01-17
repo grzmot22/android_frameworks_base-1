@@ -23,10 +23,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.widget.ImageView;
 
-import com.android.internal.logging.MetricsConstants;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.QSTileView;
+import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 public class CompassTile extends QSTile<QSTile.BooleanState> implements SensorEventListener {
     private final static float ALPHA = 0.97f;
@@ -114,14 +114,14 @@ public class CompassTile extends QSTile<QSTile.BooleanState> implements SensorEv
             }
         } else {
             state.icon = ResourceIcon.get(R.drawable.ic_qs_compass_off);
-            state.label = mContext.getString(R.string.quick_settings_compass_off);
+            state.label = mContext.getString(R.string.quick_settings_compass_label);
             mImage.setRotation(0);
         }
     }
 
     @Override
     public int getMetricsCategory() {
-        return MetricsConstants.DONT_TRACK_ME_BRO;
+        return CMMetricsLogger.TILE_COMPASS;
     }
 
     @Override

@@ -23,22 +23,6 @@
     <string name="app_float_item_title">Float view</string>
     <string name="app_stop_item_title">Kill app</string>
 
-    <!-- Screenrecord Notification Ticker -->
-    <string name="screenrecord_notif_ticker">Screen is being recorded</string>
-
-    <!-- Screenrecord notification title -->
-    <string name="screenrecord_notif_title">Recording screen</string>
-
-    <!-- Screenrecord notification action: Stop -->
-    <string name="screenrecord_notif_stop">Stop</string>
-
-    <!-- Screenrecord notification action: show/hide pointer -->
-    <string name="screenrecord_notif_pointer_on">Show pointer</string>
-    <string name="screenrecord_notif_pointer_off">Hide pointer</string>
-
-    <!-- Screen record notification error title -->
-    <string name="screenrecord_notif_error">Unable to record screen</string>
-
     <!-- On The Go -->
     <string name="onthego_notif_ticker">On-The-Go activated</string>
     <string name="onthego_notif_title">On-The-Go is active</string>
@@ -54,13 +38,69 @@
     <string name="quick_settings_onthego_back">Rear Camera</string>
     <string name="quick_settings_onthego_front">Front Camera</string>-->
 
-    <!-- move UI Tuner to dev settings -->
-    <string name="status_bar_icons">Status bar icons</string>
-
     <!-- PA Pie controls -->
     <string name="pie_date_format">ccc, dd MMM yyyy</string>
     <string name="pie_hour_format_12">hh:mm</string>
     <string name="pie_hour_format_24">HH:mm</string>
     <string name="pie_am_pm">a</string>
+
+    <!-- Quick settings -->
+    <string name="quick_settings_brightness_label">Brightness</string>
+    <string name="quick_settings_screen_off_label">Screen off</string>
+    <string name="quick_settings_screenshot_label">Screenshot</string>
+
+    <!-- Expanded desktop tile -->
+    <string name="quick_settings_expanded_desktop_label">Expanded desktop</string>
+    <string name="quick_settings_expanded_desktop">Expanded</string>
+    <string name="quick_settings_expanded_desktop_off">Normal</string>
+    <string name="quick_settings_expanded_desktop_detail_title">Expanded desktop mode</string>
+    <string name="quick_settings_expanded_hide_status">Hide status bar</string>
+    <string name="quick_settings_expanded_hide_navigation">Hide navigation bar</string>
+    <string name="quick_settings_expanded_hide_both">Hide both</string>
+    <string name="accessibility_quick_settings_expanded_desktop_off">Expanded desktop disabled</string>
+
+    <!-- Content description of the brightness tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_brightness">Volume panel.</string>
+
+    <!-- Content description of the screen off tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_screen_off">Screen off.</string>
+
+    <!-- Content description of the screenshot tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_screenshot">Screenshot.</string>
+
+    <!-- Music QS Tile -->
+    <string name="quick_settings_music_label">Music</string>
+    <string name="quick_settings_music_play">Play</string>
+    <string name="quick_settings_music_pause">Pause</string>
+
+    <!-- Reboot/Recovery QS Tile -->
+    <string name="quick_settings_reboot_label">Reboot</string>
+    <string name="quick_settings_reboot_recovery_label">Recovery</string>
+
+    <!-- LTE Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE ON </string>
+    <string name="lte_off">LTE OFF</string>
+
+    <!-- NavBar tile -->
+    <string name="quick_settings_navbar_title">NavBar</string>	
+    <string name="quick_settings_navbar_on">NavBar On</string>
+    <string name="quick_settings_navbar_off">NavBar Off</string>
+    
+    <!-- App Circle Bar tile -->
+    <string name="quick_settings_appcirclebar_title">AppCircleBar</string>
+    <string name="quick_settings_appcirclebar_on">AppCircleBar On</string>
+    <string name="quick_settings_appcirclebar_off">AppCircleBar Off</string>
+
+    <!-- App Side Bar tile -->
+    <string name="quick_settings_app_sidebar">AppSideBar</string>
+    <string name="quick_settings_appsidebar_on">AppSideBar On</string>
+    <string name="quick_settings_appsidebar_off">AppSideBar Off</string>
+
+    <!-- Pie tile -->
+    <string name="quick_settings_pie">Pie</string>	
+
+    <!-- Restart UI -->
+    <string name="quick_settings_systemui_restart_label">Restart SystemUI</string>
 
 </resources>

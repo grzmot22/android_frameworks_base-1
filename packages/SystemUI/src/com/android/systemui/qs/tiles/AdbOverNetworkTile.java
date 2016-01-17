@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The CyanogenMod Open Source Project
+ * Copyright (C) 2015 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,17 @@ import android.net.wifi.WifiManager;
 import android.os.UserHandle;
 import android.provider.Settings;
 
-import com.android.internal.logging.MetricsConstants;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 
 import java.net.InetAddress;
 
 import cyanogenmod.providers.CMSettings;
+import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 public class AdbOverNetworkTile extends QSTile<QSTile.BooleanState> {
+
+    private boolean mListening;
 
     private static final Intent SETTINGS_DEVELOPMENT =
             new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
@@ -72,20 +74,20 @@ public class AdbOverNetworkTile extends QSTile<QSTile.BooleanState> {
                 InetAddress address = NetworkUtils.intToInetAddress(wifiInfo.getIpAddress());
                 state.label = address.getHostAddress();
             } else {
-                //if wifiInfo is null, set the enabled label without host address
-                state.label = mContext.getString(R.string.quick_settings_network_adb_enabled_label);
+                // if wifiInfo is null, set the label without host address
+                state.label = mContext.getString(R.string.quick_settings_network_adb_label);
             }
             state.icon = ResourceIcon.get(R.drawable.ic_qs_network_adb_on);
         } else {
             // Otherwise set the disabled label and icon
-            state.label = mContext.getString(R.string.quick_settings_network_adb_disabled_label);
+            state.label = mContext.getString(R.string.quick_settings_network_adb_label);
             state.icon = ResourceIcon.get(R.drawable.ic_qs_network_adb_off);
         }
     }
 
     @Override
     public int getMetricsCategory() {
-        return MetricsConstants.DONT_TRACK_ME_BRO;
+        return CMMetricsLogger.TILE_ADB_OVER_NETWORK;
     }
 
     private boolean isAdbEnabled() {
@@ -111,16 +113,18 @@ public class AdbOverNetworkTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public void setListening(boolean listening) {
-        if (listening) {
-            mContext.getContentResolver().registerContentObserver(
-                    CMSettings.Secure.getUriFor(CMSettings.Secure.ADB_PORT),
-                    false, mObserver);
-            mContext.getContentResolver().registerContentObserver(
-                    Settings.Secure.getUriFor(Settings.Global.ADB_ENABLED),
-                    false, mObserver);
-        } else {
-            mContext.getContentResolver().unregisterContentObserver(mObserver);
+        if (mListening != listening) {
+            mListening = listening;
+            if (listening) {
+                mContext.getContentResolver().registerContentObserver(
+                        CMSettings.Secure.getUriFor(CMSettings.Secure.ADB_PORT),
+                        false, mObserver);
+                mContext.getContentResolver().registerContentObserver(
+                        Settings.Secure.getUriFor(Settings.Global.ADB_ENABLED),
+                        false, mObserver);
+            } else {
+                mContext.getContentResolver().unregisterContentObserver(mObserver);
+            }
         }
     }
-
 }

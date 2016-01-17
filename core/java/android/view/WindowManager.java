@@ -186,6 +186,7 @@ public interface WindowManager extends ViewManager {
          * @see #TYPE_SYSTEM_ERROR
          * @see #TYPE_INPUT_METHOD
          * @see #TYPE_INPUT_METHOD_DIALOG
+         * @see #TYPE_KEYGUARD_PANEL
          */
         @ViewDebug.ExportedProperty(mapping = {
             @ViewDebug.IntToString(from = TYPE_BASE_APPLICATION, to = "TYPE_BASE_APPLICATION"),
@@ -226,6 +227,7 @@ public interface WindowManager extends ViewManager {
             @ViewDebug.IntToString(from = TYPE_PRIVATE_PRESENTATION, to = "TYPE_PRIVATE_PRESENTATION"),
             @ViewDebug.IntToString(from = TYPE_VOICE_INTERACTION, to = "TYPE_VOICE_INTERACTION"),
             @ViewDebug.IntToString(from = TYPE_VOICE_INTERACTION_STARTING, to = "TYPE_VOICE_INTERACTION_STARTING"),
+            @ViewDebug.IntToString(from = TYPE_KEYGUARD_PANEL, to = "TYPE_KEYGUARD_PANEL"),
         })
         public int type;
 
@@ -563,6 +565,21 @@ public interface WindowManager extends ViewManager {
          * @hide
          */
         public static final int TYPE_VOICE_INTERACTION_STARTING = FIRST_SYSTEM_WINDOW+33;
+
+         /**
+         * Window type: Recents. Same layer as {@link #TYPE_SYSTEM_DIALOG} but only appears on
+         * one user's screen.
+         * In multiuser systems shows on all users' windows.
+         * @hide
+         */
+        public static final int TYPE_RECENTS_OVERLAY = FIRST_SYSTEM_WINDOW+34;
+
+        /**
+         * Window type: Windows that are layered within the keyguard
+         * This type is LAST_SYSTEM_WINDOW-1 to avoid future conflicts with AOSP
+         * @hide
+         */
+        public static final int TYPE_KEYGUARD_PANEL = FIRST_SYSTEM_WINDOW+998;
 
         /**
          * End of types of system windows.

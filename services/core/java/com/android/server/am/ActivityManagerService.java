@@ -2128,7 +2128,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                             context.getApplicationInfo().loadLabel(context.getPackageManager()));
                     String title = mContext.getString(R.string.privacy_guard_notification);
 
-                    Intent infoIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Intent infoIntent = new Intent(Settings.ACTION_APP_OPS_DETAILS_SETTINGS,
                             Uri.fromParts("package", root.packageName, null));
 
                     Notification notification = new Notification();
@@ -6167,6 +6167,9 @@ public final class ActivityManagerService extends ActivityManagerNative
             if (isPendingBroadcastProcessLocked(pid)) {
                 Slog.w(TAG, "Unattached app died before broadcast acknowledged, skipping");
                 skipPendingBroadcastLocked(pid);
+            }
+            if (app.persistent && !app.isolated) {
+                addAppLocked(app.info, false, null /* ABI override */);
             }
         } else {
             Slog.w(TAG, "Spurious process start timeout - pid not known for " + app);

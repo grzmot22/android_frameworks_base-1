@@ -222,7 +222,7 @@ public class SystemServicesProxy {
     }
 
     /** Returns a list of the running tasks */
-    private List<ActivityManager.RunningTaskInfo> getRunningTasks(int numTasks) {
+    public List<ActivityManager.RunningTaskInfo> getRunningTasks(int numTasks) {
         if (mAm == null) return null;
         return mAm.getRunningTasks(numTasks);
     }
@@ -611,7 +611,7 @@ public class SystemServicesProxy {
         int searchWidgetId = host.allocateAppWidgetId();
         Bundle opts = new Bundle();
         opts.putInt(AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
-                AppWidgetProviderInfo.WIDGET_CATEGORY_SEARCHBOX);
+                AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN);
         if (!mAwm.bindAppWidgetIdIfAllowed(searchWidgetId, resolvedSearchWidgetInfo.provider, opts)) {
             host.deleteAppWidgetId(searchWidgetId);
             return null;

@@ -22,9 +22,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 
-import com.android.internal.logging.MetricsConstants;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
+import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 public class NfcTile extends QSTile<QSTile.BooleanState> {
     private NfcAdapter mNfcAdapter;
@@ -97,13 +97,12 @@ public class NfcTile extends QSTile<QSTile.BooleanState> {
         state.value = mNfcAdapter != null && isEnabled();
         state.icon = ResourceIcon.get(state.value ?
                 R.drawable.ic_qs_nfc_on : R.drawable.ic_qs_nfc_off);
-        state.label = mContext.getString(state.value
-                ? R.string.quick_settings_nfc : R.string.quick_settings_nfc_off);
+        state.label = mContext.getString(R.string.quick_settings_nfc_label);
     }
 
     @Override
     public int getMetricsCategory() {
-        return MetricsConstants.DONT_TRACK_ME_BRO;
+        return CMMetricsLogger.TILE_NFC;
     }
 
     @Override
